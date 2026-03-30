@@ -8,15 +8,15 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <sstream>
-#include <libHelp.h>
 
 using namespace std;
-
+//инфо
 const string AUTHOR = "Miao";
 const string VERSION = "1.2.3.";
 const int PORT = 8080;
 const int BUFFER_SIZE = 1024;
 
+//проверка чисел на натуральность
 bool is_prime(int n) {
     if (n < 2) return false;
     if (n == 2) return true;
@@ -27,6 +27,7 @@ bool is_prime(int n) {
     return true;
 }
 
+
 string generate_spiral() {
     const int size = 100;
     vector<vector<char>> grid(size, vector<char>(size, ' '));
@@ -34,6 +35,7 @@ string generate_spiral() {
     int step_limit = 1, step_count = 0, direction = 0; 
     int dx[] = {1, 0, -1, 0}, dy[] = {0, -1, 0, 1};
 
+    //делаем снег 
     for (int n = 1; n <= size * size; ++n) {
         if (x >= 0 && x < size && y >= 0 && y < size) {
             grid[y][x] = is_prime(n) ? '*' : ' ';
@@ -58,6 +60,7 @@ string generate_spiral() {
     return ss.str();
 }
 
+//инфо помогашки
 int main(int argc, char* argv[]) {
     for (int i = 1; i < argc; ++i) {
         string arg = argv[i];
@@ -75,7 +78,7 @@ int main(int argc, char* argv[]) {
             return 0;
         }
         if (arg == "-h" || arg == "--help") {
-            cout << "help u :) " << endl;
+            cout << "help u :)\n"<<"To see snow, enter into the console: './server -s'\n" << endl;
             return 0;
         }
     }
@@ -124,7 +127,6 @@ int main(int argc, char* argv[]) {
         if (bytesReceived <= 0) break;
 
         string message(buffer);
-        // ИСПРАВЛЕНО: удаляем символы \r и \n для корректного сравнения
         message.erase(remove(message.begin(), message.end(), '\n'), message.end());
         message.erase(remove(message.begin(), message.end(), '\r'), message.end());
 
