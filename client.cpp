@@ -1,42 +1,93 @@
 #include <iostream>
 #include <string>
 #include <cstring>
-#include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-const char* SERVER_IP="127.00.1";
-const int SERVER_PORT=8080;
-const int BUFFER_SIZE=1024;
-int main (){
-    //семейство ти ппротокол
-    int clientSocket = socket(AF_INET, SOCK_STREAM,0);// АВТОВЫБОР
-    if(clientSocket<0){
-        std::cerr << " "<<std::endl;
+
+using namespace std;
+
+const char* IP = "127.0.0.1";
+const int PORT = 8080;
+const int BUFFER_SIZE = 1024;
+
+int main() {
+
+    // создаём TCP сокет
+    int sock = socket(AF_INET, SOCK_STREAM, 0);
+
+    // структура, где храним адрес сервера
+    sockaddr_in server{};
+
+    
+    server.sin_family = AF_INET;
+
+    // порт (переводим в сетевой формат)
+    server.sin_port = htons(PORT);
+
+    // перевод IP строки в бинарный формат
+    inet_pton(AF_INET, IP, &server.sin_addr);
+
+    // подключаемся к серверу
+    if (connect(sock, (sockaddr*)&server, sizeof(server)) < 0) {
+        cout << "Connect error\n";
         return 1;
     }
-    std::cout<<"сокет создан"<<std::endl;
-    sockaddr_in serverAddr;
-    memset(& serverAddr, 0, sizeof(serverAddr));
-    serverAddr. sin_family = AF_INET;
-    serverAddr. sin_port = htons (SERVER_PORT);
-    inet_pton(AF_INET, SERVER_IP, &serverAddr. sin_addr);
-    if (connect(clientSocket, (sockaddr*)& serverAddr, sizeof(serverAddr)) < 0){
-        close(clientSocket);
-        return 2;
-    }
-    std::cout << "коннект ура :)"<<std::endl;
-    for (int i = 2; i<=4; i++){
-        std::string message = "ping";
-        send(clientSocket, message.c_str(),message.length(),0);
+
+    cout << "Connected!\n";
+
+    // бесконечный цикл общения с сервером
+    while (true) {
+
+        // ввод команды от пользователя
+        cout << "> ";
+        string msg;
+        getline(cin, msg);
+
+        // если пусто — пропускаем
+        if (msg.empty()) continue;
+
+        // добавляем перевод строки (серверу так проще читать)
+        msg += "\n";
+
+        // отправляем сообщение серверу
+        send(sock, msg.c_str(), msg.size(), 0);
+
+        // если команда exit — выходим
+        if (msg == "exit\n") break;
+
+        // буфер для ответа сервера
+        string response;
         char buffer[BUFFER_SIZE];
-        memset (buffer, 0, BUFFER_SIZE);
-        int bytesRecievd = recv(clientSocket, buffer, BUFFER_SIZE-1, 0);
-        if (bytesRecievd>0){
-            std::cout<<buffer<<std::endl;
+
+        // читаем ответ 
+        while (true) {
+
+            // очищаем буфер
+            memset(buffer, 0, BUFFER_SIZE);
+
+            // получаем данные от сервера
+            int bytes = recv(sock, buffer, BUFFER_SIZE - 1, 0);
+
+            // если сервер отключился
+            if (bytes <= 0) break;
+
+            // добавляем часть ответа
+            response += buffer;
+
+            // проверяем конец сообщения
+            if (response.find("END\n") != string::npos)
+                break;
         }
+
+        // убираем служебный маркер END
+        size_t pos = response.find("END\n");
+        if (pos != string::npos)
+            response.erase(pos);
+
+        // выводим ответ сервера
+        cout << response << endl;
     }
-    send(clientSocket, "exit",4,0);
-    close(clientSocket);
-    return 0;
+
+    // закрываем соединение
+    close(sock);
 }
