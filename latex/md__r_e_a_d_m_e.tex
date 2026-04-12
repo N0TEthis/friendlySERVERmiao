@@ -1,0 +1,471 @@
+\chapter{friendly\+SERVERmiao }
+\hypertarget{md__r_e_a_d_m_e}{}\label{md__r_e_a_d_m_e}\index{friendlySERVERmiao@{friendlySERVERmiao}}
+\label{md__r_e_a_d_m_e_autotoc_md0}%
+\Hypertarget{md__r_e_a_d_m_e_autotoc_md0}%
+\hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysubsection{\texorpdfstring{Винокурова Мария 28ИПо8481}{Винокурова Мария 28ИПо8481}}\label{md__r_e_a_d_m_e_autotoc_md1}
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md3}{}\doxysection{\texorpdfstring{Отчёт по задаче «Скатерть Улама» (C++)}{Отчёт по задаче «Скатерть Улама» (C++)}}\label{md__r_e_a_d_m_e_autotoc_md3}
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md5}{}\doxysubsection{\texorpdfstring{Содержание}{Содержание}}\label{md__r_e_a_d_m_e_autotoc_md5}
+
+\begin{DoxyEnumerate}
+\item Задача
+\item Вербальная модель
+\begin{DoxyItemize}
+\item 2.1. Генерация спирали Улама
+\item 2.2. Проверка числа на простоту
+\item 2.3. Клиент-\/серверное взаимодействие
+\end{DoxyItemize}
+\item Математическая модель
+\begin{DoxyItemize}
+\item 3.1. Спираль Улама
+\item 3.2. Простые числа
+\item 3.3. Координаты клетки
+\end{DoxyItemize}
+\item Код программы
+\begin{DoxyItemize}
+\item 4.1. Основной сервер (server.cpp)
+\item 4.2. Клиент (client.cpp)
+\end{DoxyItemize}
+\item Вывод
+\item Заключение
+\end{DoxyEnumerate}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md7}{}\doxysubsection{\texorpdfstring{1. Задача}{1. Задача}}\label{md__r_e_a_d_m_e_autotoc_md7}
+\begin{quote}
+{\bfseries{Задача 33:\+}} ~\newline
+ \end{quote}
+
+
+\begin{quote}
+Однажды математик С. Улам разделил лист бумаги на клетки и, написав в центре 1, начал писать по спирали против часовой стрелки все натуральные числа подряд, выделяя простые числа. Скоро простые числа выстроились в довольно-\/таки закономерном порядке, образуя интересный узор. Этот узор позже стал объектом исследования и получил название скатерть Улама. ~\newline
+ {\bfseries{Составьте программу, демонстрирующую скатерть Улама размером 100 × 100 клеток (вместо простых чисел выводите звездочку “\texorpdfstring{$\ast$}{*}”).}} \end{quote}
+
+
+Дополнительно в рамках задания реализовано клиент-\/серверное взаимодействие:\+ ~\newline
+
+\begin{DoxyItemize}
+\item Сервер принимает команды от клиента. ~\newline
+
+\item По команде {\ttfamily -\/s} генерирует скатерть Улама и возвращает её клиенту. ~\newline
+
+\item Клиент отправляет команды и отображает полученный узор.
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md9}{}\doxysubsection{\texorpdfstring{2. Вербальная модель}{2. Вербальная модель}}\label{md__r_e_a_d_m_e_autotoc_md9}
+Программа работает следующим образом:\+
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{Генерация спирали Улама}} ~\newline
+
+\begin{DoxyItemize}
+\item Создаётся квадратная матрица (двумерный массив) размером 100×100, заполненная пробелами. ~\newline
+
+\item Начальная точка — центр матрицы (координаты x = 50, y = 50). ~\newline
+
+\item Движение по спирали {\bfseries{против часовой стрелки}} с шаблоном:\+ вправо → вверх → влево → вниз. ~\newline
+
+\item Каждой клетке присваивается натуральное число n, начиная с 1 в центре. ~\newline
+
+\item Если число {\bfseries{простое}}, в клетку записывается {\ttfamily \texorpdfstring{$\ast$}{*}}, иначе — пробел.
+\end{DoxyItemize}
+\item {\bfseries{Проверка числа на простоту}} ~\newline
+
+\begin{DoxyItemize}
+\item Число 1 — не простое. ~\newline
+
+\item 2 — простое. ~\newline
+
+\item Чётные числа \texorpdfstring{$>$}{>} 2 — не простые. ~\newline
+
+\item Для остальных чисел проверяются делители до √n.
+\end{DoxyItemize}
+\item {\bfseries{Клиент-\/серверное взаимодействие}} ~\newline
+
+\begin{DoxyItemize}
+\item Сервер слушает порт 8080. ~\newline
+
+\item Клиент подключается к серверу и отправляет команды:\+ ~\newline
+
+\begin{DoxyItemize}
+\item {\ttfamily -\/s} — получить скатерть Улама. ~\newline
+
+\item {\ttfamily -\/h} — справка. ~\newline
+
+\item {\ttfamily -\/v} — версия. ~\newline
+
+\item {\ttfamily -\/a} — автор. ~\newline
+
+\item {\ttfamily ping} — проверка связи. ~\newline
+
+\item {\ttfamily exit} — выход. ~\newline
+
+\end{DoxyItemize}
+\item Сервер обрабатывает команду и возвращает результат (для {\ttfamily -\/s} — строку с узором). ~\newline
+
+\item Клиент выводит ответ на экран.
+\end{DoxyItemize}
+\end{DoxyEnumerate}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md11}{}\doxysubsection{\texorpdfstring{3. Математическая модель}{3. Математическая модель}}\label{md__r_e_a_d_m_e_autotoc_md11}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md12}{}\doxysubsubsection{\texorpdfstring{3.\+1. Спираль Улама}{3.\+1. Спираль Улама}}\label{md__r_e_a_d_m_e_autotoc_md12}
+Спираль Улама — это способ укладки натуральных чисел на квадратную решётку, начиная с 1 в центре и двигаясь по спирали против часовой стрелки.
+
+{\bfseries{Правило обхода}} (для против часовой стрелки, начиная с движения вправо):\+
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{Шаг\ 1:\ вправо\ 1\ клетку}
+\DoxyCodeLine{Шаг\ 2:\ вверх\ 1\ клетку}
+\DoxyCodeLine{Шаг\ 3:\ влево\ 2\ клетки}
+\DoxyCodeLine{Шаг\ 4:\ вниз\ 2\ клетки}
+\DoxyCodeLine{Шаг\ 5:\ вправо\ 3\ клетки}
+\DoxyCodeLine{Шаг\ 6:\ вверх\ 3\ клетки}
+\DoxyCodeLine{...}
+\DoxyCodeLine{Длина\ шага\ увеличивается\ каждые\ 2\ направления.}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md13}{}\doxysubsubsection{\texorpdfstring{3.\+2. Простые числа}{3.\+2. Простые числа}}\label{md__r_e_a_d_m_e_autotoc_md13}
+Число {\itshape p} называется простым, если:\+
+
+
+\begin{DoxyItemize}
+\item p \texorpdfstring{$>$}{>} 1
+\item {\itshape ∀d} ∈ \+[2, √\texorpdfstring{$\ast$}{*}p\texorpdfstring{$\ast$}{*}]\+ :\+ {\itshape p} mod {\itshape d} ≠ 0
+\end{DoxyItemize}
+
+Для оптимизации:\+
+\begin{DoxyItemize}
+\item Проверяем только нечётные делители (кроме 2).
+\item Останавливаемся при первом найденном делителе.
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md14}{}\doxysubsubsection{\texorpdfstring{3.\+3. Координаты клетки}{3.\+3. Координаты клетки}}\label{md__r_e_a_d_m_e_autotoc_md14}
+Пусть:\+
+\begin{DoxyItemize}
+\item size = 100
+\item center = size /\+ 2 = 50
+\end{DoxyItemize}
+
+Тогда координаты клетки с числом {\itshape n}:\+
+
+
+\begin{DoxyItemize}
+\item {\itshape x}({\itshape n}), {\itshape y}({\itshape n}) ∈ \+[0, 99]\+
+\item Начальная точка:\+ ({\itshape x\texorpdfstring{$\ast$}{*}₀, \texorpdfstring{$\ast$}{*}y\texorpdfstring{$\ast$}{*}₀) = (50, 50) для \texorpdfstring{$\ast$}{*}n} = 1.
+\end{DoxyItemize}
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md16}{}\doxysubsection{\texorpdfstring{4. Блок-\/схема}{4. Блок-\/схема}}\label{md__r_e_a_d_m_e_autotoc_md16}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md18}{}\doxysubsection{\texorpdfstring{5. Код программы}{5. Код программы}}\label{md__r_e_a_d_m_e_autotoc_md18}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md19}{}\doxysubsubsection{\texorpdfstring{5.\+1. Основной сервер (server.\+cpp)}{5.\+1. Основной сервер (server.\+cpp)}}\label{md__r_e_a_d_m_e_autotoc_md19}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iostream>}\ \ \ \ \ }
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <vector>}\ \ \ \ \ \ \ }
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <string>}\ \ \ \ \ \ \ }
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <cmath>}\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <cstring>}\ \ \ \ \ \ }
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <algorithm>}\ \ \ \ }
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <sys/socket.h>}\ }
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <netinet/in.h>}\ }
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <arpa/inet.h>}\ \ }
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <unistd.h>}\ \ \ \ \ }
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <sstream>}\ \ \ \ \ \ }
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ информация\ о\ программе}}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ AUTHOR\ =\ \textcolor{stringliteral}{"{}Miao"{}};\ \ \ \ \ \textcolor{comment}{//\ автор}}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\ VERSION\ =\ \textcolor{stringliteral}{"{}1.2.3."{}};\ \ \textcolor{comment}{//\ версия}}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ PORT\ =\ 8080;\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ порт\ сервера}}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ BUFFER\_SIZE\ =\ 1024;\ \ \ \ \ \textcolor{comment}{//\ размер\ буфера}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ \ проверка\ числа\ на\ простое}}
+\DoxyCodeLine{\textcolor{keywordtype}{bool}\ is\_prime(\textcolor{keywordtype}{int}\ n)\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}\ (n\ <\ 2)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ числа\ <\ 2\ не\ простые}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}\ (n\ \%\ 2\ ==\ 0\ \&\&\ n\ !=\ 2)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};\ \textcolor{comment}{//\ чётные\ (кроме\ 2)\ не\ простые}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ проверяем\ делители\ до\ sqrt(n)}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ i\ =\ 3;\ i\ <=\ sqrt(n);\ i\ +=\ 2)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (n\ \%\ i\ ==\ 0)\ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ \ генерация\ спирали}}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ generate\_spiral()\ \{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ size\ =\ 30;\ \textcolor{comment}{//\ размер\ поля}}
+\DoxyCodeLine{\ \ \ \ vector<vector<char>>\ grid(size,\ vector<char>(size,\ \textcolor{charliteral}{'\ '}));\ \textcolor{comment}{//\ 2D\ поле}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{int}\ x\ =\ size\ /\ 2,\ y\ =\ size\ /\ 2;\ \textcolor{comment}{//\ старт\ из\ центра}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{int}\ step\ =\ 1,\ count\ =\ 0,\ dir\ =\ 0;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ направления\ движения:\ вправо,\ вверх,\ влево,\ вниз}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{int}\ dx[]\ =\ \{1,\ 0,\ -\/1,\ 0\};}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{int}\ dy[]\ =\ \{0,\ -\/1,\ 0,\ 1\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ заполняем\ поле}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{int}\ n\ =\ 1;\ n\ <=\ size\ *\ size;\ n++)\ \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ если\ внутри\ границ\ —\ записываем\ символ}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (x\ >=\ 0\ \&\&\ x\ <\ size\ \&\&\ y\ >=\ 0\ \&\&\ y\ <\ size)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ grid[y][x]\ =\ is\_prime(n)\ ?\ \textcolor{charliteral}{'*'}\ :\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ двигаемся}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ x\ +=\ dx[dir];}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ y\ +=\ dy[dir];}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ count++;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ смена\ направления}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (count\ ==\ step)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ count\ =\ 0;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ dir\ =\ (dir\ +\ 1)\ \%\ 4;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ увеличиваем\ шаг\ каждые\ 2\ поворота}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (dir\ \%\ 2\ ==\ 0)\ step++;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ превращаем\ поле\ в\ строку}}
+\DoxyCodeLine{\ \ \ \ stringstream\ ss;}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ row\ :\ grid)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{char}\ c\ :\ row)\ ss\ <<\ c\ <<\ \textcolor{charliteral}{'\ '};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ ss\ <<\ \textcolor{charliteral}{'\(\backslash\)n'};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ ss.str();}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ обработка\ команд\ клиента}}
+\DoxyCodeLine{\textcolor{keywordtype}{string}\ handle\_command(\textcolor{keyword}{const}\ \textcolor{keywordtype}{string}\&\ msg)\ \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}\ (msg\ ==\ \textcolor{stringliteral}{"{}-\/h"{}})\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}help\ u\ :)\(\backslash\)n\ Commands:\(\backslash\)n-\/h\ help\(\backslash\)n-\/v\ version\(\backslash\)n-\/a\ author\(\backslash\)n-\/s\ spiral\(\backslash\)nexit\(\backslash\)n"{}};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (msg\ ==\ \textcolor{stringliteral}{"{}-\/v"{}})\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Version:\ "{}}\ +\ VERSION\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (msg\ ==\ \textcolor{stringliteral}{"{}-\/a"{}})\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Author:\ "{}}\ +\ AUTHOR\ +\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (msg\ ==\ \textcolor{stringliteral}{"{}-\/s"{}})\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ generate\_spiral();\ \textcolor{comment}{//\ возвращаем\ спираль}}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (msg\ ==\ \textcolor{stringliteral}{"{}ping"{}})\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}pong\(\backslash\)n"{}};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Unknown\ command\ (-\/h\ for\ help)\(\backslash\)n"{}};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{comment}{//\ \ основной\ сервер}}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()\ \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ создаём\ TCP\ сокет}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{int}\ serverSocket\ =\ socket(AF\_INET,\ SOCK\_STREAM,\ 0);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ разрешаем\ повторное\ использование\ порта}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{int}\ opt\ =\ 1;}
+\DoxyCodeLine{\ \ \ \ setsockopt(serverSocket,\ SOL\_SOCKET,\ SO\_REUSEADDR,\ \&opt,\ \textcolor{keyword}{sizeof}(opt));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ структура\ адреса\ сервера}}
+\DoxyCodeLine{\ \ \ \ sockaddr\_in\ addr\{\};}
+\DoxyCodeLine{\ \ \ \ addr.sin\_family\ =\ AF\_INET;\ \ \ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ addr.sin\_port\ =\ htons(PORT);\ \ \ \ \ \ }
+\DoxyCodeLine{\ \ \ \ addr.sin\_addr.s\_addr\ =\ INADDR\_ANY;\ }
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ привязка\ сокета\ к\ адресу}}
+\DoxyCodeLine{\ \ \ \ bind(serverSocket,\ (sockaddr*)\&addr,\ \textcolor{keyword}{sizeof}(addr));}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ перевод\ в\ режим\ ожидания\ подключений}}
+\DoxyCodeLine{\ \ \ \ listen(serverSocket,\ 5);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Server\ started\ on\ port\ "{}}\ <<\ PORT\ <<\ endl;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ бесконечный\ цикл\ сервера}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})\ \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ sockaddr\_in\ clientAddr\{\};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ socklen\_t\ size\ =\ \textcolor{keyword}{sizeof}(clientAddr);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ принимаем\ клиента}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ client\ =\ accept(serverSocket,\ (sockaddr*)\&clientAddr,\ \&size);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Client\ connected\(\backslash\)n"{}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[BUFFER\_SIZE];}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ цикл\ общения\ с\ клиентом}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ memset(buffer,\ 0,\ BUFFER\_SIZE);\ \textcolor{comment}{//\ очистка\ буфера}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ получаем\ данные}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ bytes\ =\ recv(client,\ buffer,\ BUFFER\_SIZE\ -\/\ 1,\ 0);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes\ <=\ 0)\ \textcolor{keywordflow}{break};\ \textcolor{comment}{//\ клиент\ отключился}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ msg(buffer);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ удаляем\ переносы\ строк}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ msg.erase(remove(msg.begin(),\ msg.end(),\ \textcolor{charliteral}{'\(\backslash\)n'}),\ msg.end());}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ msg.erase(remove(msg.begin(),\ msg.end(),\ \textcolor{charliteral}{'\(\backslash\)r'}),\ msg.end());}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (msg\ ==\ \textcolor{stringliteral}{"{}exit"{}})\ \textcolor{keywordflow}{break};\ \textcolor{comment}{//\ выход\ клиента}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ обработка\ команды}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ response\ =\ handle\_command(msg);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ response\ +=\ \textcolor{stringliteral}{"{}END\(\backslash\)n"{}};\ \textcolor{comment}{//\ \ маркер\ конца\ сообщения}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ отправка\ ответа\ клиенту}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ send(client,\ response.c\_str(),\ response.size(),\ 0);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ закрываем\ соединение\ с\ клиентом}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ close(client);}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Client\ disconnected\(\backslash\)n"{}};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ закрываем\ сервер}}
+\DoxyCodeLine{\ \ \ \ close(serverSocket);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{bool}\ is\_prime(\textcolor{keywordtype}{int}\ n);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md20}{}\doxysubsubsection{\texorpdfstring{4.\+2. Клиент (client.\+cpp)}{4.\+2. Клиент (client.\+cpp)}}\label{md__r_e_a_d_m_e_autotoc_md20}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <cstring>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <arpa/inet.h>}}
+\DoxyCodeLine{\textcolor{preprocessor}{\#include\ <unistd.h>}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{using\ namespace\ }std;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ IP\ =\ \textcolor{stringliteral}{"{}127.0.0.1"{}};}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ PORT\ =\ 8080;}
+\DoxyCodeLine{\textcolor{keyword}{const}\ \textcolor{keywordtype}{int}\ BUFFER\_SIZE\ =\ 1024;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\textcolor{keywordtype}{int}\ main()\ \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ создаём\ TCP\ сокет}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordtype}{int}\ sock\ =\ socket(AF\_INET,\ SOCK\_STREAM,\ 0);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ структура,\ где\ храним\ адрес\ сервера}}
+\DoxyCodeLine{\ \ \ \ sockaddr\_in\ server\{\};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ }
+\DoxyCodeLine{\ \ \ \ server.sin\_family\ =\ AF\_INET;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ порт\ (переводим\ в\ сетевой\ формат)}}
+\DoxyCodeLine{\ \ \ \ server.sin\_port\ =\ htons(PORT);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ перевод\ IP\ строки\ в\ бинарный\ формат}}
+\DoxyCodeLine{\ \ \ \ inet\_pton(AF\_INET,\ IP,\ \&server.sin\_addr);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ подключаемся\ к\ серверу}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{if}\ (connect(sock,\ (sockaddr*)\&server,\ \textcolor{keyword}{sizeof}(server))\ <\ 0)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Connect\ error\(\backslash\)n"{}};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}Connected!\(\backslash\)n"{}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ бесконечный\ цикл\ общения\ с\ сервером}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})\ \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ ввод\ команды\ от\ пользователя}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ cout\ <<\ \textcolor{stringliteral}{"{}>\ "{}};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ msg;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ getline(cin,\ msg);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ если\ пусто\ —\ пропускаем}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (msg.empty())\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ добавляем\ перевод\ строки\ (серверу\ так\ проще\ читать)}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ msg\ +=\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ отправляем\ сообщение\ серверу}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ send(sock,\ msg.c\_str(),\ msg.size(),\ 0);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ если\ команда\ exit\ —\ выходим}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (msg\ ==\ \textcolor{stringliteral}{"{}exit\(\backslash\)n"{}})\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ буфер\ для\ ответа\ сервера}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{string}\ response;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{char}\ buffer[BUFFER\_SIZE];}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ читаем\ ответ\ }}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (\textcolor{keyword}{true})\ \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ очищаем\ буфер}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ memset(buffer,\ 0,\ BUFFER\_SIZE);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ получаем\ данные\ от\ сервера}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ bytes\ =\ recv(sock,\ buffer,\ BUFFER\_SIZE\ -\/\ 1,\ 0);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ если\ сервер\ отключился}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (bytes\ <=\ 0)\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ добавляем\ часть\ ответа}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ response\ +=\ buffer;}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{//\ проверяем\ конец\ сообщения}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (response.find(\textcolor{stringliteral}{"{}END\(\backslash\)n"{}})\ !=\ string::npos)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ убираем\ служебный\ маркер\ END}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordtype}{size\_t}\ pos\ =\ response.find(\textcolor{stringliteral}{"{}END\(\backslash\)n"{}});}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (pos\ !=\ string::npos)}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ response.erase(pos);}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{//\ выводим\ ответ\ сервера}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ cout\ <<\ response\ <<\ endl;}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ закрываем\ соединение}}
+\DoxyCodeLine{\ \ \ \ close(sock);}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md22}{}\doxysubsection{\texorpdfstring{5. Вывод}{5. Вывод}}\label{md__r_e_a_d_m_e_autotoc_md22}
+В результате выполнения программы:\+
+\begin{DoxyItemize}
+\item Сервер запускается на порту 8080 и ожидает подключения клиентов.
+\item Клиент подключается и отправляет команду {\ttfamily -\/s}.
+\item Сервер генерирует {\bfseries{скатерть Улама размером 100×100}}:\+
+\begin{DoxyItemize}
+\item В центре — число 1 (пробел, так как 1 не простое).
+\item Вокруг по спирали раскладываются числа 2, 3, 4, …
+\item Простые числа отмечены символом {\ttfamily \texorpdfstring{$\ast$}{*}}.
+\item Получается характерный узор с диагональными скоплениями звёздочек.
+\end{DoxyItemize}
+\item Клиент получает и отображает этот узор в консоли.
+\end{DoxyItemize}
+
+Таким образом, программа полностью выполняет поставленную задачу:\+ демонстрирует скатерть Улама 100×100 с выделением простых чисел звёздочками, а также предоставляет удобный интерфейс для удалённого доступа.
+
+\DoxyHorRuler{0}
+\hypertarget{md__r_e_a_d_m_e_autotoc_md24}{}\doxysubsection{\texorpdfstring{6. Заключение}{6. Заключение}}\label{md__r_e_a_d_m_e_autotoc_md24}
+В ходе работы:\+
+\begin{DoxyItemize}
+\item Реализован алгоритм обхода чисел по спирали против часовой стрелки.
+\item Оптимизирована проверка чисел на простоту.
+\item Создана клиент-\/серверная архитектура на сокетах TCP/\+\+IP.
+\item Скатерть Улама размером 100×100 успешно генерируется и передаётся клиенту.
+\item Программа демонстрирует наглядный пример визуализации математического явления — упорядоченности простых чисел в спиральной укладке.
+\end{DoxyItemize}
+
+{\bfseries{Заключение:\+}} задача решена в полном объёме с расширением функциональности в виде сетевого взаимодействия. 

@@ -166,4 +166,11 @@ int main() {
 
     // закрываем сервер
     close(serverSocket);
+
+    /**
+ * @brief Проверка числа на простоту
+ * @param n число
+ * @return true если простое
+ */
+bool is_prime(int n);
 }
